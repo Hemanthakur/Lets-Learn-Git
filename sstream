@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class EmployeeDemo {
+
+	public static void main(String[] args) {
+		List<Employes> li = new ArrayList<>();
+		li.add(new Employes(1L, "Aman", "Hindi"));
+		li.add(new Employes(2L, "Ankit", "Hindi"));
+		li.add(new Employes(3L, "Ram", "Hindi"));
+		li.add(new Employes(4L, "Hemant", "Hindi"));
+		li.add(new Employes(5L, "Nikhil", "Hindi"));
+		li.add(new Employes(6L, "Deepak", "English"));
+		li.add(new Employes(7L, "Gowri", "English"));
+		li.add(new Employes(8L, "Siraj", "English"));
+		li.add(new Employes(9L, "Suman", "English"));
+		li.add(new Employes(10L, "Niharika", "English"));
+
+		Map<Long, String> res = li.stream().collect(Collectors.toMap(Employes::getId, Employes::getName));
+		System.out.println("Id:Name" + res);
+
+		Map<String, String> empLang = li.stream().collect(Collectors.toMap(e -> e.name, e -> e.language));
+		System.out.println("Language:Name" + empLang);
+
+		System.out.println("Language Name Map");
+		Map<String, List<String>> empLan = li.stream().collect(Collectors.groupingBy(Employes::getLanguage,
+				Collectors.mapping(Employes::getName, Collectors.toList())));
+		System.out.println(empLan);
+
+		Map<String, String> st = li.stream().filter(e -> e.language == "Hindi")
+				.collect(Collectors.toMap(e -> e.name, e -> e.language));
+		System.out.println(st);
+
+		Map<String, String> se = li.stream().filter(e -> e.language.equals("English"))
+				.collect(Collectors.toMap(e -> e.name, e -> e.language));
+		System.out.println(se);
+
+	}
+
+}
